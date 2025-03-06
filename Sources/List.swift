@@ -38,7 +38,7 @@ func formatOutput(_ url: URL) throws -> String {
     }
     
     // Hanging . for hidden files to align filenames
-    let isHidden = rv.isHidden ?? false
+    let isHidden = (rv.isHidden ?? false) && url.lastPathComponent.hasPrefix(".")
     let outputString = "\(isHidden ? " " : "  ")\(color.rawValue)\(url.lastPathComponent)\(ANSIColor.reset.rawValue)"
     
     if rv.isSymbolicLink ?? false {
