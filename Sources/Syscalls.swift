@@ -37,8 +37,9 @@ func directoryEntries(at path: String) throws -> [Entry] {
         if [".", "..", ".DS_Store"].contains(name) { continue }
 
         var st = stat()
-        guard fstatat(dirfd(dir), name, &st, AT_SYMLINK_NOFOLLOW) == 0 else { continue }
-        let type = entryType(st.st_mode)
+        let statSucceeded = fstatat(dirfd(dir), name, &st, AT_SYMLINK_NOFOLLOW) == 0
+
+        let type: EntryType = statSucceeded ? entryType(st.st_mode) : .unknown
 
         let symlinkDest = type == .symlink
             ? readSymlink(dir: dirfd(dir), name: name, sizeHint: Int(st.st_size))
