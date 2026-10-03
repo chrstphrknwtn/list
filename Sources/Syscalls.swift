@@ -39,12 +39,11 @@ func directoryEntries(at path: String) throws -> [Entry] {
     var st = stat()
     let statSucceeded = fstatat(dirfd(dir), name, &st, AT_SYMLINK_NOFOLLOW) == 0
 
-    let type: EntryType = statSucceeded ? entryType(st.st_mode) : .unknown
+    let type: EntryType =
+      statSucceeded ? entryType(st.st_mode) : .unknown
 
     let symlinkDest =
-      type == .symlink
-      ? readSymlink(dir: dirfd(dir), name: name, sizeHint: Int(st.st_size))
-      : nil
+      type == .symlink ? readSymlink(dir: dirfd(dir), name: name, sizeHint: Int(st.st_size)) : nil
 
     let entry = Entry(
       name: name,

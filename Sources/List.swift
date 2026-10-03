@@ -47,13 +47,10 @@ struct Entry {
 
   func formatted(useColor: Bool) -> String {
     let leading =
-      name.hasPrefix(".")
-      ? ""
-      : " "
+      name.hasPrefix(".") ? "" : " "
+
     let trailing =
-      type == .symlink && symlinkDest != nil
-      ? " -> \(symlinkDest ?? "")"
-      : ""
+      type == .symlink && symlinkDest != nil ? " -> \(symlinkDest ?? "")" : ""
 
     if useColor {
       var color: ANSIColor
